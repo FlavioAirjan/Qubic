@@ -106,39 +106,13 @@ public class Moviments : MonoBehaviour {
 
                 break;
             case 12:
-                // * \/ <
-                x = -1;
-                y = 1;
-                z = -1;
-                break;
-            case 13:
                 // + /\ >
                 x = -1;
                 y = 1;
                 z = 1;
                 break;
-                /*
-            case 14:
-                // + /\ <
-                x = -1;
-                y = -1;
-                z = 1;
-                break;
-            case 15:
-                // * /\ >
-                x = -1;
-                y = 1;
-                z = -1;
-                break;
-            case 16:
-                // * /\ <
-                x = -1;
-                y = -1;
-                z = -1;
-                break;
-                */
             default:
-                Debug.Log("There is only 17 moviments [0 to 16].");
+                Debug.Log("There is only 13 moviments [0 to 12].");
                 break;
         }
     }

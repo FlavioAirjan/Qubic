@@ -39,7 +39,7 @@ public class singleCubeScript : MonoBehaviour {
     void Start () {
 
         //Deve ser atualizado.
-        NumOfPossibleMoves = 14;
+        NumOfPossibleMoves = 13;
 
         MyMoves = new GameObject[NumOfPossibleMoves];
 
