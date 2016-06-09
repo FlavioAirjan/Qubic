@@ -191,6 +191,13 @@ public class CubeScript : MonoBehaviour {
                             z1 = Math.Abs(z1) % cubeSize;
                             }
 
+                            /*
+                            //Colore os vetors do cubo central. Usar para mostrar para o Chaimo, Paulo e Flávio e ver se está certo.
+                            if (i == 3 && j == 3 && k == 3)
+                            {
+                                cubes[x1][y1][z1].GetComponent<Renderer>().material.color = Color.red;
+                            }
+                            */
 
                             //Debug.Log(x1 + "" + y1 + "" + z1);
                             //Debug.Log("novaPosição: " + x1 + "" + y1 + "" + z1);
