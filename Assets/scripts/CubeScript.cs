@@ -14,6 +14,7 @@ public class CubeScript : MonoBehaviour {
     public int justOnce;
     // Use this for initialization
     void Start () {
+        
         //masterCube = createCube(masterCube, cubeSize);
         createCube();
         drawCube();
