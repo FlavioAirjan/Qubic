@@ -138,8 +138,20 @@ public class singleCubeScript : MonoBehaviour {
         borderCb = positionFrequence[0] + positionFrequence[masterCubeSize] == 2 || cornerCb ? true : false;
         internCb = !externCb ? true : false;
 
-        
-        
+        if ((masterCubeSize + 1) % 2 == 1)
+        {
+            centerCb = (positionFrequence[(masterCubeSize + 1) / 2] == 2) && (positionFrequence[0] + positionFrequence[masterCubeSize] == 1) || (positionFrequence[(masterCubeSize + 1) / 2] == 3) ? true : false;
+
+        }
+
+
+
+
+
+        /*
+        insideDiagCube e OutsideDiagCube estão errados.
+        */
+
         int count_interns = 0;
 
 
@@ -195,14 +207,10 @@ public class singleCubeScript : MonoBehaviour {
             }    
         }
 
-        if ((masterCubeSize + 1) % 2 == 1)
-        {
-            Debug.Log("entrou");
-            centerCb = insideDiagCb && (positionFrequence[(masterCubeSize + 1)/2] == 2) && (positionFrequence[0] + positionFrequence[masterCubeSize]  == 1) || (positionFrequence[(masterCubeSize + 1) / 2] == 3) ? true : false;
-            
-        }
 
-        
+        /*
+        insideDiagCube e OutsideDiagCube estão errados.
+        */
 
         outsideDiagCb = (externCb && !cornerCb && !insideDiagCb && !centerCb) || (internCb && !insideDiagCb) ? true : false;
 
