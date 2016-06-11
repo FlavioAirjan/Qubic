@@ -7,6 +7,7 @@ public class Moviments : MonoBehaviour {
     public int z;
     public bool validMoviment;
 
+
     public Moviments()
     {
         x = 0;

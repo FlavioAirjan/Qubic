@@ -11,11 +11,15 @@ public class CubeScript : MonoBehaviour {
   
     public GameObject cubeMove;
 
-    public int justOnce;
+    private int justOnce;
     // Use this for initialization
+
+
+
     void Start () {
-        
+
         //masterCube = createCube(masterCube, cubeSize);
+        
         createCube();
         drawCube();
         justOnce = 0;
@@ -96,6 +100,7 @@ public class CubeScript : MonoBehaviour {
                     cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Glossiness", 0.115f);
                     cubes[i][j][k].name = i.ToString() + j.ToString() + k.ToString();
                     cubes[i][j][k].AddComponent<singleCubeScript>();
+               
 
                     /*
                     cubes[i][j][k].GetComponent<Renderer>().material.EnableKeyword("_METALLICGLOSSMAP");
@@ -209,7 +214,7 @@ public class CubeScript : MonoBehaviour {
                         //if (x1 != i || y1 != j || z1 != k)
                         if(estourou > 1)
                         {
-                            Debug.Log("Invalid Moviment");
+                            //Debug.Log("Invalid Moviment");
                             cubes[i][j][k].GetComponentInChildren<singleCubeScript>().NumOfPossibleMoves--;
                             cubes[i][j][k].GetComponentInChildren<singleCubeScript>().MyMoves[indexMoviment].GetComponent<Moviments>().validMoviment = false;
                         }
@@ -224,6 +229,9 @@ public class CubeScript : MonoBehaviour {
                     }
                     
                     indexMoviment = 0;
+
+                    cubes[i][j][k].GetComponentInChildren<singleCubeScript>().identifyCubeType(cubes[i][j][k].name, cubeSize-1);
+                    cubes[i][j][k].GetComponentInChildren<singleCubeScript>().paintCube();
 
                 }
             }
@@ -246,7 +254,7 @@ public class CubeScript : MonoBehaviour {
         if (justOnce == 0)
         {
             checkValidMoviments();
-            justOnce++;
+            justOnce = 1;
         }
 
 

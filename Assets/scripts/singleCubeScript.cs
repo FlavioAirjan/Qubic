@@ -31,15 +31,16 @@ public class singleCubeScript : MonoBehaviour {
     //Cubos não pertencentes às faces externas (internos).
     public bool internCube;
 
-
-
+    
     public int NumOfPossibleMoves;
-
+   
     
 
 
     //Contém os movimentos possíveis.
     public GameObject[] MyMoves;
+
+   
 
 
     // Use this for initialization
@@ -69,8 +70,8 @@ public class singleCubeScript : MonoBehaviour {
 
         masterCube = gameObject.transform.parent.gameObject;
         masterCubeSize = gameObject.GetComponentInParent<CubeScript>().cubeSize;
-        identifyCubeType(gameObject.name, masterCubeSize-1);
-        paintCube();
+        //identifyCubeType(gameObject.name, masterCubeSize-1);
+       
   
 
     }
@@ -112,114 +113,113 @@ public class singleCubeScript : MonoBehaviour {
         }
         Debug.Log(debuggingPosition + "     " + debuggingPositionFrequency);
         /*END-OF-Debugging*/
-
         
-        /*
-        for (int i = 0; i < 3; i++)
-        {
-            //Se ele tiver alguma posição que seja diferente de 0 e diferente do (máximo tamanho do cubo-1)
-            if (position[i].ToString() != "0" && position[i].ToString() != masterCubeSize.ToString())
-            {
-                //Então ele não é um cubo de quina.
-                cornerCb = false;
-            }
-            //Senão, se ele tiver alguma posição 0 ou (máximo tamanho do cubo-1).
-            else
-            {
-                //Então ele é um cubo externo.
-                externCb = true;
-            }
-           
-        }
-        */
 
         externCb = positionFrequence[0] + positionFrequence[masterCubeSize]>=1 ? true : false;
         cornerCb = positionFrequence[0] + positionFrequence[masterCubeSize] == 3 ? true : false;
         borderCb = positionFrequence[0] + positionFrequence[masterCubeSize] == 2 || cornerCb ? true : false;
         internCb = !externCb ? true : false;
 
+        //Se for um cubo ímpar (3x3x3 ou 5x5x5, ...).
         if ((masterCubeSize + 1) % 2 == 1)
         {
+            //Calcula o centro das faces externas e o centro interno do cubo.
             centerCb = (positionFrequence[(masterCubeSize + 1) / 2] == 2) && (positionFrequence[0] + positionFrequence[masterCubeSize] == 1) || (positionFrequence[(masterCubeSize + 1) / 2] == 3) ? true : false;
 
         }
 
+        int count = 0;
+        int[] targetCbPositionFrequence = new int[masterCubeSize + 1];
 
-
-
-
-        /*
-        insideDiagCube e OutsideDiagCube estão errados.
-        */
-
-        int count_interns = 0;
-
-
-        int sum = 0;
-        for (int i = 1; i < positionFrequence.Length-1; i++)
+       
+        var cubeSize = masterCubeSize + 1;
+        for (int i  = 0; i < MyMoves.Length; i++)
         {
-            if (positionFrequence[i] > 0)
-            {
-                count_interns += positionFrequence[i];
-
-             sum += (int)(Math.Pow(i,(float) 2))* positionFrequence[i];
-            }
             
 
-            if (i == positionFrequence.Length - 2)
+            //Se o movimento for válido e não for nenhum movimento que só ande em 1 sentido.
+            if (MyMoves[i].GetComponent<Moviments>().validMoviment && i != 0 && i != 1 && i != 4)
             {
 
-                if (count_interns == 2 && (positionFrequence[0] + positionFrequence[masterCubeSize] == 1))
+
+                int x1 = (int)char.GetNumericValue(position[0]);
+                int y1 = (int)char.GetNumericValue(position[1]);
+                int z1 = (int)char.GetNumericValue(position[2]);
+
+
+                count = 0;
+                while (count < cubeSize)
                 {
-                    if (sum % 2 == 0)
+                    //Limpa o vetor de frequencia de posição do cubo alvo.
+                    for (int j = 0; j < masterCubeSize + 1; j++)
                     {
-                        Debug.Log("Sum:" + sum.ToString());
-                        insideDiagCb = true;
+                        targetCbPositionFrequence[j] = 0;
+                    }
+
+
+                    x1 += MyMoves[i].GetComponent<Moviments>().x;
+                    //x1 = Math.Abs(x1) % cubeSize;
+
+                    y1 += MyMoves[i].GetComponent<Moviments>().y;
+                    //y1 = Math.Abs(y1) % cubeSize;
+
+                    z1 += MyMoves[i].GetComponent<Moviments>().z;
+                    //z1 = Math.Abs(z1) % cubeSize;
+                    if (x1 < 0)
+                    {
+                        x1 += cubeSize;
+
                     }
                     else
                     {
-                        insideDiagCb = false;
+                        x1 = Math.Abs(x1) % cubeSize;
                     }
-                }
-                else if (count_interns == 3)
-                {
-                    if (sum % 2 == 1)
-                    {
-                        insideDiagCb = true;
-                    }
-                    else if ((masterCubeSize + 1) % 2 == 1)
-                    {
-                        if (positionFrequence[(masterCubeSize + 1) / 2] == 3)
-                        {
 
-                            insideDiagCb = true;
-                        }
+                    if (y1 < 0)
+                    {
+                        y1 += cubeSize;
+
                     }
                     else
                     {
-                        insideDiagCb = false;
+                        y1 = Math.Abs(y1) % cubeSize;
                     }
-                }
-                else if (cornerCb)
-                {
-                    insideDiagCb = true;
-                }
-            }    
-        }
+
+                    if (z1 < 0)
+                    {
+                        z1 += cubeSize;
+
+                    }
+                    else
+                    {
+                        z1 = Math.Abs(z1) % cubeSize;
+                    }
+
+                   
+                    targetCbPositionFrequence[x1]++;
+                    targetCbPositionFrequence[y1]++;
+                    targetCbPositionFrequence[z1]++;
 
 
-        /*
-        insideDiagCube e OutsideDiagCube estão errados.
-        */
+                    if (targetCbPositionFrequence[0] + targetCbPositionFrequence[masterCubeSize] == 3)
+                    {
+
+                       
+                        insideDiagCb = true;
+
+                    }
+
+                    count++;
+                }
+
+                }
+            }
+
+
 
         outsideDiagCb = (externCb && !cornerCb && !insideDiagCb && !centerCb) || (internCb && !insideDiagCb) ? true : false;
 
-        /*
-        {
 
-            insideDiagCb = true;
-        }
-        */
 
         cornerCube = cornerCb ? true : false;
         borderCube = borderCb ? true : false;
@@ -232,8 +232,9 @@ public class singleCubeScript : MonoBehaviour {
     }
 
 
-    void paintCube()
+    public void paintCube()
     {
+        
         //Do mais abrangente ao menos abrangente.
         if (externCube)
         {
@@ -272,18 +273,18 @@ public class singleCubeScript : MonoBehaviour {
         {
             gameObject.GetComponent<Renderer>().material.color = Color.black;
         }
-
-
-
         
 
-     
     }
+
+    
+
+    
+
+  
 
 	// Update is called once per frame
 	void Update () {
-
-
-	
-	}
+        
+    }
 }
