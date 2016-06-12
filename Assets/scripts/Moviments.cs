@@ -2,10 +2,22 @@
 
 public class Moviments : MonoBehaviour {
 
+    private GameObject masterCube;
+
     public int x;
     public int y;
     public int z;
-    public bool validMoviment;
+    public bool validMovement;
+
+    //Contém os cubos que estão no caminho deste movimento.
+    public GameObject[] cubesOnThisMovement;
+
+    //Conta os cubos livres no caminho.
+    public int countFreeCubes;
+
+
+    //Cada movimento tem um valor.
+    public int value;
 
 
     public Moviments()
@@ -13,6 +25,7 @@ public class Moviments : MonoBehaviour {
         x = 0;
         y = 0;
         z = 0;
+       
     }
     
 
@@ -118,13 +131,36 @@ public class Moviments : MonoBehaviour {
         }
     }
 
+    void Awake()
+    {
+        masterCube = GameObject.FindGameObjectWithTag("masterCube");
+        cubesOnThisMovement = new GameObject[masterCube.GetComponent<CubeScript>().cubeSize];
+        value = 0;
+    }
+
     // Use this for initialization
     void Start () {
-	
-	}
-	
+   
+    }
+
+    void updateValuePath()
+    {
+        int tempFreeCubes = 0;
+        int tempValue = 0;
+        foreach (GameObject cube in cubesOnThisMovement)
+        {
+            tempValue += cube.GetComponent<singleCubeScript>().value;
+            if (cube.GetComponent<singleCubeScript>().value == 0)
+            {
+                tempFreeCubes++;
+            }
+        }
+        value = tempValue;
+        countFreeCubes = tempFreeCubes;
+    }
+
 	// Update is called once per frame
 	void Update () {
-	
+        updateValuePath();
 	}
 }

@@ -15,6 +15,7 @@ public class CubeScript : MonoBehaviour {
     // Use this for initialization
 
 
+   
 
     void Start () {
 
@@ -50,28 +51,7 @@ public class CubeScript : MonoBehaviour {
         
     }
 
-    /*
-    public int[][][] createCube(int [][][] masterCube, int cubeSize)
-    {
-        masterCube = new int[cubeSize][][];
-
-        for (int i = 0; i < masterCube.Length; i++)
-        {
-            masterCube[i] = new int[cubeSize][];
-            for (int j = 0; j < masterCube[i].Length; j++)
-            {
-                masterCube[i][j] = new int[cubeSize];
-
-                for (int k = 0; k < masterCube[i][j].Length; k++)
-                { 
-                    masterCube[i][j][k] = new int();
-                }
-            }
-        }
-
-        return masterCube;
-    }
-    */
+   
     public void drawCube()
     {
         for (int i = 0; i < masterCube.Length; i++)
@@ -87,27 +67,15 @@ public class CubeScript : MonoBehaviour {
                     cubes[i][j][k].transform.position = new Vector3(i, j, k);
                     cubes[i][j][k].GetComponent<Transform>().localScale = new Vector3(cubes[i][j][k].GetComponent<Transform>().localScale.x - spaceBetweenCubes, cubes[i][j][k].GetComponent<Transform>().localScale.y - spaceBetweenCubes, cubes[i][j][k].GetComponent<Transform>().localScale.z - spaceBetweenCubes);
 
-
-
-
-
                     cubes[i][j][k].GetComponent<Renderer>().material = new Material(Shader.Find("Standard"));
                     cubes[i][j][k].GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 0.6f);
                     cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
-
 
                     cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Metallic", 0f);
                     cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Glossiness", 0.115f);
                     cubes[i][j][k].name = i.ToString() + j.ToString() + k.ToString();
                     cubes[i][j][k].AddComponent<singleCubeScript>();
                
-
-                    /*
-                    cubes[i][j][k].GetComponent<Renderer>().material.EnableKeyword("_METALLICGLOSSMAP");
-                    cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_METALLICGLOSSMAP", 0.5f);
-                    */
-
-
                 }
             }
         }
@@ -135,13 +103,8 @@ public class CubeScript : MonoBehaviour {
         {
             for (int j = 0; j < masterCube[i].Length; j++)
             {
-
                 for (int k = 0; k < masterCube[i][j].Length; k++)
                 {
-                    
-
-                    
-
                     while (indexMoviment < cubes[i][j][k].gameObject.GetComponentInChildren<singleCubeScript>().MyMoves.Length)
                     {
                         x1 = i;
@@ -197,6 +160,12 @@ public class CubeScript : MonoBehaviour {
                             z1 = Math.Abs(z1) % cubeSize;
                             }
 
+                            
+                            
+
+                            cubes[i][j][k].GetComponent<singleCubeScript>().MyMoves[indexMoviment].GetComponent<Moviments>().cubesOnThisMovement[count] = cubes[x1][y1][z1];
+                            
+
                             /*
                             //Colore os vetors do cubo central. Usar para mostrar para o Chaimo, Paulo e Flávio e ver se está certo.
                             if (i == 3 && j == 3 && k == 3)
@@ -215,8 +184,8 @@ public class CubeScript : MonoBehaviour {
                         if(estourou > 1)
                         {
                             //Debug.Log("Invalid Moviment");
-                            cubes[i][j][k].GetComponentInChildren<singleCubeScript>().NumOfPossibleMoves--;
-                            cubes[i][j][k].GetComponentInChildren<singleCubeScript>().MyMoves[indexMoviment].GetComponent<Moviments>().validMoviment = false;
+                            cubes[i][j][k].gameObject.GetComponentInChildren<singleCubeScript>().NumOfPossibleMoves--;
+                            cubes[i][j][k].gameObject.GetComponentInChildren<singleCubeScript>().MyMoves[indexMoviment].GetComponent<Moviments>().validMovement = false;
                         }
                         else
                         {

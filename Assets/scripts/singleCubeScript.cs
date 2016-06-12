@@ -4,10 +4,15 @@ using System;
 
 public class singleCubeScript : MonoBehaviour {
 
+    public GameObject bestMovement;
+
     public GameObject masterCube;
+    private GameObject GameManager;
 
     public int masterCubeSize;
 
+    
+    
 
 
     //Cubos da quina (participam de 3 faces externas).
@@ -40,32 +45,40 @@ public class singleCubeScript : MonoBehaviour {
     //Contém os movimentos possíveis.
     public GameObject[] MyMoves;
 
-   
+    //Cada cubo tem um valor, sendo este -1 se o jogador marcou, 0 se ninguém marcou e 1 se o computador marcou. 
+    public int value;
 
 
     // Use this for initialization
     void Start () {
-        
-    externCube = false;
-    internCube = false;
-    cornerCube = false;
-    borderCube = false;
-    insideDiagCube = false;
-    outsideDiagCube = false;
-    centerCube = false;
 
-    //Deve ser atualizado.
-    NumOfPossibleMoves = 13;
+        //Guarda a  melhor jogada para aquele cubo.
+        bestMovement = null;
+
+        GameManager = GameObject.Find("GameManager");
+
+        value = 0;
+        externCube = false;
+        internCube = false;
+        cornerCube = false;
+        borderCube = false;
+        insideDiagCube = false;
+        outsideDiagCube = false;
+        centerCube = false;
+
+        //Deve ser atualizado.
+        NumOfPossibleMoves = 13;
 
         MyMoves = new GameObject[NumOfPossibleMoves];
-
+        
         for (int i = 0; i < NumOfPossibleMoves; i++)
         {
             MyMoves[i] = Instantiate(gameObject.GetComponentInParent<CubeScript>().cubeMove);
             MyMoves[i].transform.parent = gameObject.transform;
             MyMoves[i].name = "Move" + i.ToString();
             MyMoves[i].GetComponent<Moviments>().setMove(i);
-            MyMoves[i].GetComponent<Moviments>().validMoviment = true;
+            MyMoves[i].GetComponent<Moviments>().validMovement = true;
+
         }
 
         masterCube = gameObject.transform.parent.gameObject;
@@ -105,6 +118,7 @@ public class singleCubeScript : MonoBehaviour {
         }
 
         /*Debugging*/
+        /*
         string debuggingPosition = "Position: " + position;
         string debuggingPositionFrequency = "Frequency: ";
         for (int i = 0; i < positionFrequence.Length; i++)
@@ -112,6 +126,7 @@ public class singleCubeScript : MonoBehaviour {
             debuggingPositionFrequency += (positionFrequence[i]);
         }
         Debug.Log(debuggingPosition + "     " + debuggingPositionFrequency);
+        */
         /*END-OF-Debugging*/
         
 
@@ -138,7 +153,7 @@ public class singleCubeScript : MonoBehaviour {
             
 
             //Se o movimento for válido e não for nenhum movimento que só ande em 1 sentido.
-            if (MyMoves[i].GetComponent<Moviments>().validMoviment && i != 0 && i != 1 && i != 4)
+            if (MyMoves[i].GetComponent<Moviments>().validMovement && i != 0 && i != 1 && i != 4)
             {
 
 
@@ -277,14 +292,37 @@ public class singleCubeScript : MonoBehaviour {
 
     }
 
-    
+    //Se o jogador clicar.
+    void OnMouseDown()
+    {
+        if (value == 0 && GameManager.GetComponent<GameManagerScript>().turn == -1) { 
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
+        value = -1; // O valor do cubo será 1.
+        GameManager.GetComponent<GameManagerScript>().PaintedCubes.Add(this.gameObject);
+        GameManager.GetComponent<GameManagerScript>().turn *= -1;
+        }
+    }
 
-    
+   
 
-  
+    public void IA()
+    {
+        //Se tiver na vez do computador.
+        if (GameManager.GetComponent<GameManagerScript>().turn == 1) {
 
-	// Update is called once per frame
-	void Update () {
-        
+           //Chama as funções de avaliação.
+
+            //Passa o turno.
+            GameManager.GetComponent<GameManagerScript>().turn *= -1;
+        }
+    }
+
+
+
+
+
+    // Update is called once per frame
+    void Update () {
+        IA();
     }
 }
