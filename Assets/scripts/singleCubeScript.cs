@@ -4,7 +4,11 @@ using System;
 
 public class singleCubeScript : MonoBehaviour {
 
-    public GameObject bestMovement;
+    static int moveID;
+
+    
+
+
 
     public GameObject masterCube;
     private GameObject GameManager;
@@ -38,22 +42,9 @@ public class singleCubeScript : MonoBehaviour {
 
     
     public int NumOfPossibleMoves;
-   
-    
 
-
-    //Contém os movimentos possíveis.
-    public GameObject[] MyMoves;
-
-    //Cada cubo tem um valor, sendo este -1 se o jogador marcou, 0 se ninguém marcou e 1 se o computador marcou. 
-    public int value;
-
-
-    // Use this for initialization
-    void Start () {
-
-        //Guarda a  melhor jogada para aquele cubo.
-        bestMovement = null;
+    public void InitializeCube()
+    {
 
         GameManager = GameObject.Find("GameManager");
 
@@ -70,7 +61,7 @@ public class singleCubeScript : MonoBehaviour {
         NumOfPossibleMoves = 13;
 
         MyMoves = new GameObject[NumOfPossibleMoves];
-        
+
         for (int i = 0; i < NumOfPossibleMoves; i++)
         {
             MyMoves[i] = Instantiate(gameObject.GetComponentInParent<CubeScript>().cubeMove);
@@ -78,13 +69,29 @@ public class singleCubeScript : MonoBehaviour {
             MyMoves[i].name = "Move" + i.ToString();
             MyMoves[i].GetComponent<Moviments>().setMove(i);
             MyMoves[i].GetComponent<Moviments>().validMovement = true;
+            MyMoves[i].GetComponent<Moviments>().insideList = false;
 
         }
 
         masterCube = gameObject.transform.parent.gameObject;
         masterCubeSize = gameObject.GetComponentInParent<CubeScript>().cubeSize;
         //identifyCubeType(gameObject.name, masterCubeSize-1);
-       
+
+    }
+
+
+    //Contém os movimentos possíveis.
+    public GameObject[] MyMoves;
+
+    //Cada cubo tem um valor, sendo este -1 se o jogador marcou, 0 se ninguém marcou e 1 se o computador marcou. 
+    public int value;
+
+
+    // Use this for initialization
+    void Start () {
+
+
+        //InitializeCube();
   
 
     }
@@ -307,6 +314,7 @@ public class singleCubeScript : MonoBehaviour {
 
     public void IA()
     {
+        /*
         //Se tiver na vez do computador.
         if (GameManager.GetComponent<GameManagerScript>().turn == 1) {
 
@@ -315,6 +323,7 @@ public class singleCubeScript : MonoBehaviour {
             //Passa o turno.
             GameManager.GetComponent<GameManagerScript>().turn *= -1;
         }
+        */
     }
 
 

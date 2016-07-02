@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class CubeScript : MonoBehaviour {
+
+    static int moveID;
 
     public float spaceBetweenCubes;
     public int cubeSize;
@@ -11,20 +14,85 @@ public class CubeScript : MonoBehaviour {
   
     public GameObject cubeMove;
 
-    private int justOnce;
+    //List of all Moves (without repeat).
+    public List<GameObject> Moves;
+
+
     // Use this for initialization
 
 
-   
+    void generateMoveList()
+    {
+        for (int i = 0; i < masterCube.Length; i++)
+        {
+            for (int j = 0; j < masterCube[i].Length; j++)
+            {
+                for (int k = 0; k < masterCube[i][j].Length; k++)
+                {
+                    //Pra cada movimento do cubo.
+                    foreach (GameObject move in cubes[i][j][k].GetComponent<singleCubeScript>().MyMoves)
+                    {
+                        //Se for um movimento válido.
+                        if (move.GetComponent<Moviments>().validMovement)
+                        {
+                            if (!move.GetComponent<Moviments>().insideList)
+                            { 
+                            //Adiciona o movimento à lista.
+                            Moves.Add(move);
+                            //Seta o movimento como falso. (pois não irá colocar o mesmo movimento para os outros cubos).
+                            move.GetComponent<Moviments>().insideList = true;
+
+                                //Para cada cubo que tem o mesmo movimento.
+                                
+                                foreach (GameObject cube in move.GetComponent<Moviments>().cubesOnThisMovement)
+                                {
+
+
+                                    foreach (GameObject move2 in cube.GetComponent<singleCubeScript>().MyMoves)
+                                    {
+                                        if (move2.name == move.name)
+                                        {
+                                            move2.GetComponent<Moviments>().insideList = true;
+
+                                        }
+                                    }
+
+                                }
+                                
+                                /*
+                                for (int a = 0; a < move.GetComponent<Moviments>().cubesOnThisMovement.Length; a++)
+                                {
+                                    for (int b = 0; b < move.GetComponent<Moviments>().cubesOnThisMovement[a].GetComponent<singleCubeScript>().MyMoves.Length; b++)
+                                    {
+                                        if (move.GetComponent<Moviments>().cubesOnThisMovement[a].GetComponent<singleCubeScript>().MyMoves[b].name == move.name)
+                                        {
+                                            move.GetComponent<Moviments>().cubesOnThisMovement[a].GetComponent<singleCubeScript>().MyMoves[b] = move;
+                                        }
+
+                                    }
+                                }
+                                */
+                          }
+                        }
+                        
+                    }
+                    
+
+                }
+            }
+        }
+
+    }
 
     void Start () {
 
-        //masterCube = createCube(masterCube, cubeSize);
-        
+        moveID = 0;
+        Moves = new List<GameObject>();
+
         createCube();
         drawCube();
-        justOnce = 0;
-        
+        checkValidMoviments();
+        generateMoveList();
     }
 
     public void createCube()
@@ -83,8 +151,7 @@ public class CubeScript : MonoBehaviour {
     }
 
 
-    //Algoritmo está correto.
-    //O que não está correto é o numero de movimentos.
+    
     public void checkValidMoviments()
     {
 
@@ -105,6 +172,9 @@ public class CubeScript : MonoBehaviour {
             {
                 for (int k = 0; k < masterCube[i][j].Length; k++)
                 {
+                    //Inicializa os cubos.
+                    cubes[i][j][k].GetComponentInChildren<singleCubeScript>().InitializeCube();
+
                     while (indexMoviment < cubes[i][j][k].gameObject.GetComponentInChildren<singleCubeScript>().MyMoves.Length)
                     {
                         x1 = i;
@@ -199,6 +269,7 @@ public class CubeScript : MonoBehaviour {
                     
                     indexMoviment = 0;
 
+                    
                     cubes[i][j][k].GetComponentInChildren<singleCubeScript>().identifyCubeType(cubes[i][j][k].name, cubeSize-1);
                     cubes[i][j][k].GetComponentInChildren<singleCubeScript>().paintCube();
 
@@ -214,17 +285,12 @@ public class CubeScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        //Debug.Log(Moves[0].GetComponent<Moviments>().insideList);
         /*
          Os cubos já são mapeados por essa matriz! o/
         cubes[3][3][0].GetComponent<Renderer>().material.color = Color.yellow;
 
         */
-
-        if (justOnce == 0)
-        {
-            checkValidMoviments();
-            justOnce = 1;
-        }
 
 
     }

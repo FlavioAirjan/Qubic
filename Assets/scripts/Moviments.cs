@@ -8,6 +8,8 @@ public class Moviments : MonoBehaviour {
     public int y;
     public int z;
     public bool validMovement;
+    public bool insideList;
+
 
     //Contém os cubos que estão no caminho deste movimento.
     public GameObject[] cubesOnThisMovement;
@@ -140,7 +142,7 @@ public class Moviments : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-   
+       
     }
 
     void updateValuePath()
