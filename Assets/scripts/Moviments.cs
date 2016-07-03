@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Moviments : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class Moviments : MonoBehaviour {
     public bool insideList;
 
 
+
     //Contém os cubos que estão no caminho deste movimento.
     public GameObject[] cubesOnThisMovement;
 
@@ -21,6 +23,11 @@ public class Moviments : MonoBehaviour {
     //Cada movimento tem um valor.
     public int value;
 
+    //fakeValue é usado para o algoritmo de IA. Funciona como o value.
+    public int fakeValue;
+
+    //countFakeFreeCubes é usado para o alg. de IA.
+    public int countFakeFreeCubes;
 
     public Moviments()
     {
@@ -138,6 +145,7 @@ public class Moviments : MonoBehaviour {
         masterCube = GameObject.FindGameObjectWithTag("masterCube");
         cubesOnThisMovement = new GameObject[masterCube.GetComponent<CubeScript>().cubeSize];
         value = 0;
+        fakeValue = 0;
     }
 
     // Use this for initialization
@@ -145,7 +153,7 @@ public class Moviments : MonoBehaviour {
        
     }
 
-    void updateValuePath()
+    public void updateValuePath()
     {
         int tempFreeCubes = 0;
         int tempValue = 0;
@@ -161,8 +169,29 @@ public class Moviments : MonoBehaviour {
         countFreeCubes = tempFreeCubes;
     }
 
-	// Update is called once per frame
-	void Update () {
-        updateValuePath();
+
+    public void updateFakeValuePath()
+    {
+        int tempFakeFreeCubes = 0;
+        int tempFakeValue = 0;
+        foreach (GameObject cube in cubesOnThisMovement)
+        {
+            tempFakeValue += cube.GetComponent<singleCubeScript>().fakeValue;
+            if (cube.GetComponent<singleCubeScript>().fakeValue == 0)
+            {
+                tempFakeFreeCubes++;
+            }
+        }
+        fakeValue = tempFakeValue;
+        countFakeFreeCubes = tempFakeFreeCubes;
+    }
+
+
+    // Update is called once per frame
+    void Update () {
+        //updateValuePath();
+        //updateFakeValuePath();
+
+        
 	}
 }

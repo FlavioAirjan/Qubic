@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class CubeScript : MonoBehaviour {
 
-    static int moveID;
-
     public float spaceBetweenCubes;
     public int cubeSize;
     public int[][][] masterCube;
@@ -58,20 +56,7 @@ public class CubeScript : MonoBehaviour {
                                     }
 
                                 }
-                                
-                                /*
-                                for (int a = 0; a < move.GetComponent<Moviments>().cubesOnThisMovement.Length; a++)
-                                {
-                                    for (int b = 0; b < move.GetComponent<Moviments>().cubesOnThisMovement[a].GetComponent<singleCubeScript>().MyMoves.Length; b++)
-                                    {
-                                        if (move.GetComponent<Moviments>().cubesOnThisMovement[a].GetComponent<singleCubeScript>().MyMoves[b].name == move.name)
-                                        {
-                                            move.GetComponent<Moviments>().cubesOnThisMovement[a].GetComponent<singleCubeScript>().MyMoves[b] = move;
-                                        }
-
-                                    }
-                                }
-                                */
+                           
                           }
                         }
                         
@@ -86,7 +71,6 @@ public class CubeScript : MonoBehaviour {
 
     void Start () {
 
-        moveID = 0;
         Moves = new List<GameObject>();
 
         createCube();
@@ -271,7 +255,7 @@ public class CubeScript : MonoBehaviour {
 
                     
                     cubes[i][j][k].GetComponentInChildren<singleCubeScript>().identifyCubeType(cubes[i][j][k].name, cubeSize-1);
-                    cubes[i][j][k].GetComponentInChildren<singleCubeScript>().paintCube();
+                    //cubes[i][j][k].GetComponentInChildren<singleCubeScript>().paintCube();
 
                 }
             }
@@ -284,8 +268,12 @@ public class CubeScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
-        //Debug.Log(Moves[0].GetComponent<Moviments>().insideList);
+        /*
+        Debug.Log(Moves[0].GetComponent<Moviments>().value);
+        Debug.Log(Moves[0].GetComponent<Moviments>().fakeValue);
+        Debug.Log(Moves[0].GetComponent<Moviments>().countFreeCubes);
+        Debug.Log(Moves[0].GetComponent<Moviments>().countFakeFreeCubes);
+        */
         /*
          Os cubos já são mapeados por essa matriz! o/
         cubes[3][3][0].GetComponent<Renderer>().material.color = Color.yellow;

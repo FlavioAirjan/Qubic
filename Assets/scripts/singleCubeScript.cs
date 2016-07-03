@@ -4,14 +4,11 @@ using System;
 
 public class singleCubeScript : MonoBehaviour {
 
-    static int moveID;
-
-    
-
-
-
+    public GameObject centerMasterCube;
     public GameObject masterCube;
     private GameObject GameManager;
+    
+
 
     public int masterCubeSize;
 
@@ -86,6 +83,8 @@ public class singleCubeScript : MonoBehaviour {
     //Cada cubo tem um valor, sendo este -1 se o jogador marcou, 0 se ninguém marcou e 1 se o computador marcou. 
     public int value;
 
+    //fakeValue é usado para o algoritmo de IA. Funciona como o value.
+    public int fakeValue;
 
     // Use this for initialization
     void Start () {
@@ -302,29 +301,23 @@ public class singleCubeScript : MonoBehaviour {
     //Se o jogador clicar.
     void OnMouseDown()
     {
-        if (value == 0 && GameManager.GetComponent<GameManagerScript>().turn == -1) { 
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
+        //Se o cubo não estiver pintado e ser o turno do jogador.
+        if (value == 0 && GameManager.GetComponent<GameManagerScript>().turn == -1) {
+       
+        gameObject.GetComponent<Renderer>().material.color = Color.blue;
         value = -1; // O valor do cubo será 1.
-        GameManager.GetComponent<GameManagerScript>().PaintedCubes.Add(this.gameObject);
+
+        fakeValue = -1;
+
+        //GameManager.GetComponent<GameManagerScript>().PaintedCubes.Add(this.gameObject);
         GameManager.GetComponent<GameManagerScript>().turn *= -1;
         }
     }
 
    
+   
 
-    public void IA()
-    {
-        /*
-        //Se tiver na vez do computador.
-        if (GameManager.GetComponent<GameManagerScript>().turn == 1) {
 
-           //Chama as funções de avaliação.
-
-            //Passa o turno.
-            GameManager.GetComponent<GameManagerScript>().turn *= -1;
-        }
-        */
-    }
 
 
 
@@ -332,6 +325,6 @@ public class singleCubeScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        IA();
+       
     }
 }

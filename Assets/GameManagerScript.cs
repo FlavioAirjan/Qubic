@@ -10,15 +10,11 @@ public class GameManagerScript : MonoBehaviour {
     public int turn;
 
     //Recebe os cubos pintados.
-    public List<GameObject> PaintedCubes;
-
     void Awake()
     {
-        turn = Random.value > 0.5 ? 1 : -1;
-        PaintedCubes = new List<GameObject>();
-
-
-    }
+        //turn = Random.value > 0.5 ? 1 : -1;
+        turn = -1;
+       }
 
     // Use this for initialization
     void Start () {
@@ -28,12 +24,9 @@ public class GameManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        /*
-        if (PaintedCubes.Count > 0)
-        {
-
-            Debug.Log(PaintedCubes.Count);
-        }
-        */
+     
     }
+
+    
+
 }
