@@ -17,7 +17,7 @@ public class IA : MonoBehaviour {
     public int maxValue;
     public int minValue;
 
-    public int depth = 3;
+    public int depth = 5;
     
 
     public List<SimulatedCube> bestCubesToPlay;
