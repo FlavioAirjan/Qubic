@@ -13,9 +13,11 @@ public class IA : MonoBehaviour {
     public GameObject GameManager;
     public GameObject MasterCube;
     public bool hasDataToPlay;
-    
 
-    public int depth = 3;
+    public int maxValue;
+    public int minValue;
+
+    public int depth = 5;
     
 
     public List<SimulatedCube> bestCubesToPlay;
@@ -26,7 +28,7 @@ public class IA : MonoBehaviour {
 	void Start () {
 
         hasDataToPlay = false;
-
+        
         bestPlayIterator = 0;
         bestCubesToPlay = new List<SimulatedCube>();
 
@@ -37,6 +39,10 @@ public class IA : MonoBehaviour {
         
         GameManager = GameObject.Find("GameManager");
         MasterCube = GameObject.Find("MasterCube");
+       
+        maxValue = (int) Math.Pow(10,MasterCube.GetComponent<CubeScript>().cubeSize);
+        minValue = -1*(int) Math.Pow(10, MasterCube.GetComponent<CubeScript>().cubeSize-1);
+        Debug.Log("teste"+ maxValue + " "+minValue);
 
     }
 	
@@ -46,22 +52,38 @@ public class IA : MonoBehaviour {
         
         int sum = 0;
         int n = 0;
+        int value;
         foreach (SimulatedMoviments move in MasterCube.GetComponent<CubeScript>().SimulatedMoves)
         {
             move.updateValuePath();
 
             n = move.value;
 
+
             if (n != 0)
             {
                 // ((10^|n|)*(n/|n|));
-                sum += (int)(Math.Pow(10, Math.Abs(n)) * ((n / Math.Abs(n))));
-
+                value=(int)(Math.Pow(10, Math.Abs(n)) * ((n / Math.Abs(n))));
+                if (value >= maxValue)
+                {
+                    //Debug.Log("teste" + maxValue);
+                    return maxValue*100;
+                }
+                if (value <= minValue)
+                {
+                   // print(minValue);
+                    //Debug.Log("teste" + minValue);
+                    return minValue * 100;
+                }
+                sum += value;
             }
             else
             {
                 sum = 0;
             }
+
+
+            
         }
 
         return sum;
@@ -141,22 +163,25 @@ public class IA : MonoBehaviour {
                 {
                     for (int k = 0; k < masterCube.Length; k++)
                     {
-                        masterCube[i][j][k].value = -1;
-
-                        v_linha = MinMax(masterCube, v, min, currentDepth + 1, !turn);
-
-                        if (v_linha < v)
+                        if (masterCube[i][j][k].value == 0)
                         {
-                            v = v_linha;
-                            bestCubesToPlay[currentDepth].value = -1;
-                            bestCubesToPlay[currentDepth].pos[0] = i;
-                            bestCubesToPlay[currentDepth].pos[1] = j;
-                            bestCubesToPlay[currentDepth].pos[2] = k;
-                        }
-                        masterCube[i][j][k].value = 0;
-                        if (v < min)
-                        {
-                            return min;
+                            masterCube[i][j][k].value = -1;
+
+                            v_linha = MinMax(masterCube, v, min, currentDepth + 1, !turn);
+
+                            if (v_linha < v)
+                            {
+                                v = v_linha;
+                                bestCubesToPlay[currentDepth].value = -1;
+                                bestCubesToPlay[currentDepth].pos[0] = i;
+                                bestCubesToPlay[currentDepth].pos[1] = j;
+                                bestCubesToPlay[currentDepth].pos[2] = k;
+                            }
+                            masterCube[i][j][k].value = 0;
+                            if (v < min)
+                            {
+                                return min;
+                            }
                         }
 
                     }
@@ -177,6 +202,7 @@ public class IA : MonoBehaviour {
 
     public void Play()
     {
+        
         /*
         if (!hasDataToPlay) { 
             MinMax(MasterCube.GetComponent<CubeScript>().masterCube, MAX, MIN, 0, true);
@@ -194,10 +220,12 @@ public class IA : MonoBehaviour {
             if (bestPlayIterator > bestCubesToPlay.Count - 1)
             {
                 hasDataToPlay = false;
+                bestPlayIterator = 0;
             }
 
         }
         */
+       
         MinMax(MasterCube.GetComponent<CubeScript>().masterCube, MAX, MIN, 0, true);
         MasterCube.GetComponent<CubeScript>().cubes[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].GetComponent<Renderer>().material.color = Color.yellow;
         MasterCube.GetComponent<CubeScript>().masterCube[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].setValue(1);

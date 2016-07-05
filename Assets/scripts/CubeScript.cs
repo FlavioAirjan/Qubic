@@ -129,14 +129,14 @@ public class CubeScript : MonoBehaviour {
        
         copyMoveListToSimulatedMoveList();
 
-        foreach (GameObject i in Moves)
+       /* foreach (GameObject i in Moves)
         {
             foreach (GameObject j in i.GetComponent<Moviments>().cubesOnThisMovement)
             {
                 Debug.Log(j.GetComponent<singleCubeScript>().position[0].ToString() + j.GetComponent<singleCubeScript>().position[1].ToString() + j.GetComponent<singleCubeScript>().position[2].ToString());
             }
             Debug.Log("\n\n");
-        }
+        }*/
 
         GameManager = GameObject.Find("GameManager");
         Computer = GameObject.Find("Computador");
