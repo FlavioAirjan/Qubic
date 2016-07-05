@@ -17,7 +17,7 @@ public class IA : MonoBehaviour {
     public int maxValue;
     public int minValue;
 
-    public int depth = 5;
+    public int depth = 3;
     
 
     public List<SimulatedCube> bestCubesToPlay;
@@ -264,6 +264,7 @@ public class IA : MonoBehaviour {
             MinMax(MasterCube.GetComponent<CubeScript>().masterCube, MAX, MIN, 0, true);
             MasterCube.GetComponent<CubeScript>().cubes[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].GetComponent<Renderer>().material.color = Color.yellow;
             MasterCube.GetComponent<CubeScript>().masterCube[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].setValue(1);
+            MasterCube.GetComponent<CubeScript>().cubes[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].GetComponent<singleCubeScript>().value = 1;
             if (aux == maxValue)
             {
                 Debug.Log("Que pena, você perdeu!");
