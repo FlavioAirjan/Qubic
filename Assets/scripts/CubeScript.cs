@@ -26,6 +26,8 @@ public class CubeScript : MonoBehaviour {
     //Vetor/Matriz que representa o cubo.
     public SimulatedCube[][][] masterCube;
 
+    public bool gameover;
+
 
     // Use this for initialization
 
@@ -118,7 +120,7 @@ public class CubeScript : MonoBehaviour {
 
         Moves = new List<GameObject>();
         SimulatedMoves = new List<SimulatedMoviments>();
-
+        gameover = false;
         //Integer Matrix Cube.
         createCube();
 
@@ -201,6 +203,34 @@ public class CubeScript : MonoBehaviour {
         }
 
     }
+
+    //Recolore os cubos
+    public void reDraw()
+    {
+        for (int i = 0; i < masterCube.Length; i++)
+        {
+            for (int j = 0; j < masterCube[i].Length; j++)
+            {
+
+                for (int k = 0; k < masterCube[i][j].Length; k++)
+                {
+
+
+                    cubes[i][j][k].GetComponent<Renderer>().material = new Material(Shader.Find("Standard"));
+                    cubes[i][j][k].GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 0.6f);
+                    cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
+
+                    cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Metallic", 0f);
+                    cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Glossiness", 0.115f);
+                    cubes[i][j][k].name = i.ToString() + j.ToString() + k.ToString();
+
+
+                }
+            }
+        }
+
+    }
+
 
     public void checkValidMoviments()
     {
@@ -318,7 +348,26 @@ public class CubeScript : MonoBehaviour {
 
     }
 
+    //Seta os valores do cubo para 0
+    public void restartCube()
+    {
+       
+        for (int i = 0; i < masterCube.Length; i++)
+        {
+            for (int j = 0; j < masterCube[i].Length; j++)
+            {
 
+                for (int k = 0; k < masterCube[i][j].Length; k++)
+                {
+                    masterCube[i][j][k].value = 0;
+                    masterCube[i][j][k].setPosition(i, j, k);
+
+                    cubes[i][j][k].GetComponent<singleCubeScript>().value = 0;
+                }
+            }
+        }
+
+    }
 
 
     // Update is called once per frame
@@ -335,8 +384,9 @@ public class CubeScript : MonoBehaviour {
 
     
             */
+       
 
-        if (Input.GetMouseButtonDown(0) && GameManager.GetComponent<GameManagerScript>().turn == -1)
+        if (Input.GetMouseButtonDown(0) && GameManager.GetComponent<GameManagerScript>().turn == -1 && !gameover)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -362,13 +412,23 @@ public class CubeScript : MonoBehaviour {
                     GameManager.GetComponent<GameManagerScript>().turn *= -1;
 
                     //StartCoroutine(Computer.GetComponent<IA>().Play());
-                    Computer.GetComponent<IA>().Play();
+                    gameover=Computer.GetComponent<IA>().Play();
                     //Play();
                 }
-
-
+                //Se a IA retornar gameOver entao o cubo é restartado com os valores 0 e volta as cores iniciais.
+                if (gameover)
+                {
+                    restartCube();
+                    reDraw();
+                    gameover = false;
+                    GameManager.GetComponent<GameManagerScript>().turn = -1;
+                }
             }
         }
+
+       
+
+
     }
 
     

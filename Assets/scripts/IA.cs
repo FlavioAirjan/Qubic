@@ -40,9 +40,11 @@ public class IA : MonoBehaviour {
         GameManager = GameObject.Find("GameManager");
         MasterCube = GameObject.Find("MasterCube");
        
+
+        //Valores max e min que identificam se acabou o jogo com vitória ou derrota
         maxValue = (int) Math.Pow(10,MasterCube.GetComponent<CubeScript>().cubeSize);
         minValue = -1*(int) Math.Pow(10, MasterCube.GetComponent<CubeScript>().cubeSize-1);
-        Debug.Log("teste"+ maxValue + " "+minValue);
+        //Debug.Log("teste"+ maxValue + " "+minValue);
 
     }
 	
@@ -66,15 +68,17 @@ public class IA : MonoBehaviour {
             {
                 // ((10^|n|)*(n/|n|));
                 value=(int)(Math.Pow(10, Math.Abs(n)) * ((n / Math.Abs(n))));
+                //se ganhou o jogo
                 if (value >= maxValue)
                 {
-                    //Debug.Log("teste" + maxValue);
                     return maxValue;
                 }
+                //se está prestes a perder
                 if (value <= minValue)
                 {
                     temMin = true;
                 }
+                //se perdeu o jogo
                 if (value <= minValue*10)
                 {
                     lose = true;
@@ -86,10 +90,13 @@ public class IA : MonoBehaviour {
                 sum = 0;
             }
         }
+
+        //retorna se perdeu
         if (lose==true)
         {
             return minValue*10;
         }
+        //retorna que está prestes a perder
         else if (temMin)
         {
             return minValue ;
@@ -141,6 +148,7 @@ public class IA : MonoBehaviour {
                         {
                             masterCube[i][j][k].value = 1;
                             boardValue=evaluate();
+                            //Se não tiver acabado
                             if (boardValue==maxValue) {
                                 v_linha = maxValue;
                             }
@@ -152,6 +160,7 @@ public class IA : MonoBehaviour {
                             {
                                 v_linha = MinMax(masterCube, max, v, currentDepth + 1, !turn);
                             }
+
                             if (v_linha > v)
                             {
 
@@ -194,7 +203,8 @@ public class IA : MonoBehaviour {
                             masterCube[i][j][k].value = -1;
 
                             boardValue = evaluate();
-                           if (boardValue <= minValue*10)
+                            //Se não tiver acabado
+                            if (boardValue <= minValue*10)
                             {
                                 v_linha = minValue*10;
                             }
@@ -202,8 +212,6 @@ public class IA : MonoBehaviour {
                             {
                                 v_linha = MinMax(masterCube, v, min, currentDepth + 1, !turn);
                             }
-
-                           
 
                             if (v_linha < v)
                             {
@@ -235,57 +243,60 @@ public class IA : MonoBehaviour {
     }
 
     
-
-    public void Play()
+    //Play retorna se o jogo terminou ou não, se não, ele chama minimax, faz a jogada e troca o turno.
+    public bool Play()
     {
-        
-        /*
-        if (!hasDataToPlay) { 
-            MinMax(MasterCube.GetComponent<CubeScript>().masterCube, MAX, MIN, 0, true);
-            hasDataToPlay = true;
-            bestPlayIterator = 0;
 
-        }
-        
-        if (hasDataToPlay)
+        int aux = evaluate();
+        if (aux == maxValue)
         {
+            Debug.Log("Que pena, você perdeu!");
+            return true;
+        }
+        else if (aux == minValue * 10)
+        {
+            Debug.Log("Parabéns, você ganhou!");
+            return true;
+        }
+        else
+        {
+
+            MinMax(MasterCube.GetComponent<CubeScript>().masterCube, MAX, MIN, 0, true);
             MasterCube.GetComponent<CubeScript>().cubes[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].GetComponent<Renderer>().material.color = Color.yellow;
             MasterCube.GetComponent<CubeScript>().masterCube[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].setValue(1);
-            bestPlayIterator +=2;
-
-            if (bestPlayIterator > bestCubesToPlay.Count - 1)
+            if (aux == maxValue)
             {
-                hasDataToPlay = false;
-                bestPlayIterator = 0;
+                Debug.Log("Que pena, você perdeu!");
+                return true;
+            }else if (aux == minValue * 10)
+            {
+                Debug.Log("Parabéns, você ganhou!");
+                return true;
             }
 
-        }
-        */
-       
-        MinMax(MasterCube.GetComponent<CubeScript>().masterCube, MAX, MIN, 0, true);
-        MasterCube.GetComponent<CubeScript>().cubes[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].GetComponent<Renderer>().material.color = Color.yellow;
-        MasterCube.GetComponent<CubeScript>().masterCube[bestCubesToPlay[bestPlayIterator].pos[0]][bestCubesToPlay[bestPlayIterator].pos[1]][bestCubesToPlay[bestPlayIterator].pos[2]].setValue(1);
-        /*
-        foreach (SimulatedCube cube in bestCubesToPlay)
-        {
-           
-            Debug.Log(cube.pos[0].ToString() + cube.pos[1].ToString() + cube.pos[2].ToString());
-            
-            if (cube.value == 1)
+            /*
+            foreach (SimulatedCube cube in bestCubesToPlay)
             {
-                MasterCube.GetComponent<CubeScript>().cubes[cube.pos[0]][cube.pos[1]][cube.pos[2]].GetComponent<Renderer>().material.color = Color.yellow;
-            }
-            else
-            {
-                MasterCube.GetComponent<CubeScript>().cubes[cube.pos[0]][cube.pos[1]][cube.pos[2]].GetComponent<Renderer>().material.color = Color.red;
-            }
 
-            
-        }    
-        */
-        GameManager.GetComponent<GameManagerScript>().turn *= -1;
+                Debug.Log(cube.pos[0].ToString() + cube.pos[1].ToString() + cube.pos[2].ToString());
+
+                if (cube.value == 1)
+                {
+                    MasterCube.GetComponent<CubeScript>().cubes[cube.pos[0]][cube.pos[1]][cube.pos[2]].GetComponent<Renderer>().material.color = Color.yellow;
+                }
+                else
+                {
+                    MasterCube.GetComponent<CubeScript>().cubes[cube.pos[0]][cube.pos[1]][cube.pos[2]].GetComponent<Renderer>().material.color = Color.red;
+                }
+
+
+            }    
+            */
+            GameManager.GetComponent<GameManagerScript>().turn *= -1;
 
             Debug.Log("Término Jogada Computador");
+            return false;
+        }
 
     }
 }
