@@ -53,6 +53,8 @@ public class IA : MonoBehaviour {
         int sum = 0;
         int n = 0;
         int value;
+        bool temMin = false;
+        bool lose = false;
         foreach (SimulatedMoviments move in MasterCube.GetComponent<CubeScript>().SimulatedMoves)
         {
             move.updateValuePath();
@@ -67,13 +69,15 @@ public class IA : MonoBehaviour {
                 if (value >= maxValue)
                 {
                     //Debug.Log("teste" + maxValue);
-                    return maxValue*100;
+                    return maxValue;
                 }
                 if (value <= minValue)
                 {
-                   // print(minValue);
-                    //Debug.Log("teste" + minValue);
-                    return minValue * 100;
+                    temMin = true;
+                }
+                if (value <= minValue*10)
+                {
+                    lose = true;
                 }
                 sum += value;
             }
@@ -81,12 +85,20 @@ public class IA : MonoBehaviour {
             {
                 sum = 0;
             }
-
-
-            
         }
-
-        return sum;
+        if (lose==true)
+        {
+            return minValue*10;
+        }
+        else if (temMin)
+        {
+            return minValue ;
+        }
+        else
+        {
+            return sum;
+        }
+       
     }
 
 
@@ -105,6 +117,11 @@ public class IA : MonoBehaviour {
             return boardValue;
             
         }
+        /*boardValue = evaluate();
+        if (boardValue==maxValue)
+        {
+
+        }*/
 
         //Se for max.
         if (turn)
@@ -123,9 +140,18 @@ public class IA : MonoBehaviour {
                         if (masterCube[i][j][k].value == 0)
                         {
                             masterCube[i][j][k].value = 1;
-
-                            v_linha = MinMax(masterCube, max, v, currentDepth + 1, !turn);
-
+                            boardValue=evaluate();
+                            if (boardValue==maxValue) {
+                                v_linha = maxValue;
+                            }
+                            else if (boardValue <= minValue*10)
+                            {
+                                v_linha = minValue;
+                            }
+                            else
+                            {
+                                v_linha = MinMax(masterCube, max, v, currentDepth + 1, !turn);
+                            }
                             if (v_linha > v)
                             {
 
@@ -167,7 +193,17 @@ public class IA : MonoBehaviour {
                         {
                             masterCube[i][j][k].value = -1;
 
-                            v_linha = MinMax(masterCube, v, min, currentDepth + 1, !turn);
+                            boardValue = evaluate();
+                           if (boardValue <= minValue*10)
+                            {
+                                v_linha = minValue*10;
+                            }
+                            else
+                            {
+                                v_linha = MinMax(masterCube, v, min, currentDepth + 1, !turn);
+                            }
+
+                           
 
                             if (v_linha < v)
                             {
