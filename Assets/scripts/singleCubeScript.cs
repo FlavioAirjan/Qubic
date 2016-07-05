@@ -7,7 +7,8 @@ public class singleCubeScript : MonoBehaviour {
     public GameObject centerMasterCube;
     public GameObject masterCube;
     private GameObject GameManager;
-    
+
+    public int[] position;
 
 
     public int masterCubeSize;
@@ -40,8 +41,18 @@ public class singleCubeScript : MonoBehaviour {
     
     public int NumOfPossibleMoves;
 
+    public void setPosition(int x, int y, int z)
+    {
+        position[0] = x;
+        position[1] = y;
+        position[2] = z;
+    }
+
     public void InitializeCube()
     {
+
+
+        position = new int[3];
 
         GameManager = GameObject.Find("GameManager");
 
@@ -83,15 +94,10 @@ public class singleCubeScript : MonoBehaviour {
     //Cada cubo tem um valor, sendo este -1 se o jogador marcou, 0 se ninguém marcou e 1 se o computador marcou. 
     public int value;
 
-    //fakeValue é usado para o algoritmo de IA. Funciona como o value.
-    public int fakeValue;
-
     // Use this for initialization
     void Start () {
 
-
-        //InitializeCube();
-  
+       
 
     }
 
@@ -298,23 +304,6 @@ public class singleCubeScript : MonoBehaviour {
 
     }
 
-    //Se o jogador clicar.
-    void OnMouseDown()
-    {
-        //Se o cubo não estiver pintado e ser o turno do jogador.
-        if (value == 0 && GameManager.GetComponent<GameManagerScript>().turn == -1) {
-       
-        gameObject.GetComponent<Renderer>().material.color = Color.blue;
-        value = -1; // O valor do cubo será 1.
-
-        fakeValue = -1;
-
-        //GameManager.GetComponent<GameManagerScript>().PaintedCubes.Add(this.gameObject);
-        GameManager.GetComponent<GameManagerScript>().turn *= -1;
-        }
-    }
-
-   
    
 
 
