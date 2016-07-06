@@ -99,7 +99,7 @@ public class IA : MonoBehaviour {
             }
             else
             {
-                sum = 0;
+                sum += 0;
             }
         }
 
