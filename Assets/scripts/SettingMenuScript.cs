@@ -13,7 +13,7 @@ public class SettingMenuScript : MonoBehaviour {
     
     public void EasyGame()
     {
-        QubicInfo.GetComponent<QubicInfo>().depth = 3;
+        QubicInfo.GetComponent<QubicInfo>().depth = 1;
         try
         {
             QubicInfo.GetComponent<QubicInfo>().cubeSize  = Int32.Parse(InputFieldText.GetComponent<Text>().text);
@@ -35,7 +35,7 @@ public class SettingMenuScript : MonoBehaviour {
 
     public void MediumGame()
     {
-        QubicInfo.GetComponent<QubicInfo>().depth = 5;
+        QubicInfo.GetComponent<QubicInfo>().depth = 3;
         try
         {
             QubicInfo.GetComponent<QubicInfo>().cubeSize = Int32.Parse(InputFieldText.GetComponent<Text>().text);
@@ -57,7 +57,7 @@ public class SettingMenuScript : MonoBehaviour {
     }
     public void HardGame()
     {
-        QubicInfo.GetComponent<QubicInfo>().depth = 7;
+        QubicInfo.GetComponent<QubicInfo>().depth = 5;
         try
         {
             QubicInfo.GetComponent<QubicInfo>().cubeSize = Int32.Parse(InputFieldText.GetComponent<Text>().text);
