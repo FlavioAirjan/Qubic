@@ -235,7 +235,7 @@ public class IA : MonoBehaviour {
 
         }
 
-        Debug.Log("Erro");
+        //Debug.Log("Erro");
 
         return 0;
 
@@ -295,7 +295,7 @@ public class IA : MonoBehaviour {
             */
             GameManager.GetComponent<GameManagerScript>().turn *= -1;
 
-            Debug.Log("Término Jogada Computador");
+            //Debug.Log("Término Jogada Computador");
             return false;
         }
 

@@ -67,6 +67,21 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\CubeScript.cs" />
@@ -74,6 +89,7 @@
     <Compile Include="Assets\scripts\GetCenterMasterCube.cs" />
     <Compile Include="Assets\scripts\IA.cs" />
     <Compile Include="Assets\scripts\Moviments.cs" />
+    <Compile Include="Assets\scripts\PlayerController.cs" />
     <Compile Include="Assets\scripts\SimulatedCube.cs" />
     <Compile Include="Assets\scripts\SimulatedMoviments.cs" />
     <Compile Include="Assets\scripts\singleCubeScript.cs" />

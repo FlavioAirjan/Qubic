@@ -11,8 +11,8 @@ public class CubeScript : MonoBehaviour {
     
     public GameObject[][][] cubes;
 
-    private GameObject GameManager;
-    private GameObject Computer;
+    public GameObject GameManager;
+    public GameObject Computer;
 
     public GameObject cubeMove;
 
@@ -83,7 +83,7 @@ public class CubeScript : MonoBehaviour {
 
     public void copyMoveListToSimulatedMoveList()
     {
-        Debug.Log("entrou");
+       
         foreach (GameObject move in Moves)
         {
             SimulatedMoviments simulatedMove = new SimulatedMoviments(cubeSize);
@@ -372,62 +372,7 @@ public class CubeScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        /*
-        Debug.Log(Moves[0].GetComponent<Moviments>().value);
-        Debug.Log(Moves[0].GetComponent<Moviments>().fakeValue);
-        Debug.Log(Moves[0].GetComponent<Moviments>().countFreeCubes);
-        Debug.Log(Moves[0].GetComponent<Moviments>().countFakeFreeCubes);
-        */
-        /*
-         Os cubos já são mapeados por essa matriz! o/
-        cubes[3][3][0].GetComponent<Renderer>().material.color = Color.yellow;
-
-    
-            */
-       
-
-        if (Input.GetMouseButtonDown(0) && GameManager.GetComponent<GameManagerScript>().turn == -1 && !gameover)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                //Destroy(hit.transform.gameObject);
-                Debug.Log(hit.transform.gameObject.GetComponent<singleCubeScript>().value);
-
-                if (hit.transform.gameObject.GetComponent<singleCubeScript>().value == 0)
-                {
-
-                    hit.transform.gameObject.GetComponent<Renderer>().material.color = Color.blue;
-                    hit.transform.gameObject.GetComponent<singleCubeScript>().value = -1; // O valor do cubo será 1.
-
-                    int x = hit.transform.gameObject.GetComponent<singleCubeScript>().position[0];
-                    int y = hit.transform.gameObject.GetComponent<singleCubeScript>().position[1];
-                    int z = hit.transform.gameObject.GetComponent<singleCubeScript>().position[2];
-
-
-                    masterCube[x][y][z].setValue(-1);
-
-                    //GameManager.GetComponent<GameManagerScript>().PaintedCubes.Add(this.gameObject);
-                    GameManager.GetComponent<GameManagerScript>().turn *= -1;
-
-                    //StartCoroutine(Computer.GetComponent<IA>().Play());
-                    gameover=Computer.GetComponent<IA>().Play();
-                    //Play();
-                }
-                //Se a IA retornar gameOver entao o cubo é restartado com os valores 0 e volta as cores iniciais.
-                if (gameover)
-                {
-                    restartCube();
-                    reDraw();
-                    gameover = false;
-                    GameManager.GetComponent<GameManagerScript>().turn = -1;
-                }
-            }
-        }
-
-       
-
+      
 
     }
 
