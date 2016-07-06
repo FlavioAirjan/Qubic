@@ -8,7 +8,9 @@ public class CubeScript : MonoBehaviour {
     public float spaceBetweenCubes;
     public int cubeSize;
 
-    
+    private GameObject QubicInfo;
+
+
     public GameObject[][][] cubes;
 
     public GameObject GameManager;
@@ -118,6 +120,19 @@ public class CubeScript : MonoBehaviour {
 
     void Start () {
 
+        GameManager = GameObject.Find("GameManager");
+        Computer = GameObject.Find("Computador");
+
+        try
+        {
+            QubicInfo = GameObject.Find("QubicInfo");
+            cubeSize = QubicInfo.GetComponent<QubicInfo>().cubeSize;
+        }
+        catch
+        {
+            Debug.Log("QubicInfoNotFound");
+        }
+
         Moves = new List<GameObject>();
         SimulatedMoves = new List<SimulatedMoviments>();
         gameover = false;
@@ -140,8 +155,7 @@ public class CubeScript : MonoBehaviour {
             Debug.Log("\n\n");
         }*/
 
-        GameManager = GameObject.Find("GameManager");
-        Computer = GameObject.Find("Computador");
+       
     }
 
     public void createCube()

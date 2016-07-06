@@ -11,10 +11,10 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         CenterMasterCube = GameObject.Find("CenterMasterCube");
-            MasterCube = GameObject.Find("MasterCube");
+           
         GameManager = GameObject.Find("GameManager");
         Computer = GameObject.Find("Computador");
-
+        MasterCube = GameObject.Find("MasterCube");
         if (MasterCube == null)
             {
                  MasterCube = GameObject.Find("CenterMasterCube/MasterCube");
@@ -42,13 +42,14 @@ public class PlayerController : MonoBehaviour {
         float horizontalRotation = Input.GetAxis("Horizontal");
         float verticalRotation = Input.GetAxis("Vertical");
 
-        Debug.Log(((Time.deltaTime)*horizontalRotation).ToString() + " " + ((Time.deltaTime)*verticalRotation).ToString());
+        
         CenterMasterCube.transform.transform.Rotate(verticalRotation, -1*horizontalRotation, 0);
 
     }
 
     void Play()
     {
+
 
         if (Input.GetMouseButtonDown(0) && GameManager.GetComponent<GameManagerScript>().turn == -1 && !MasterCube.GetComponent<CubeScript>().gameover)
         {
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour {
 
                     //GameManager.GetComponent<GameManagerScript>().PaintedCubes.Add(this.gameObject);
                     GameManager.GetComponent<GameManagerScript>().turn *= -1;
+                    GameManager.GetComponent<GameManagerScript>().setGameTurnText("Computer");
 
                     //MasterCube.GetComponent<CubeScript>().gameover = StartCoroutine(Computer.GetComponent<IA>().Play());
                     MasterCube.GetComponent<CubeScript>().gameover = Computer.GetComponent<IA>().Play();
@@ -86,9 +88,13 @@ public class PlayerController : MonoBehaviour {
                     MasterCube.GetComponent<CubeScript>().reDraw();
                     MasterCube.GetComponent<CubeScript>().gameover = false;
                     MasterCube.GetComponent<CubeScript>().GameManager.GetComponent<GameManagerScript>().turn = -1;
+                    GameManager.GetComponent<GameManagerScript>().setGameTurnText("You");
+                    GameManager.GetComponent<GameManagerScript>().setGameResultText("In Progress");
                 }
             }
         }
+
+       
     }
 
     void reScaleMasterCube(float value)
@@ -113,7 +119,7 @@ public class PlayerController : MonoBehaviour {
                     }
                     else if (value == -0.1f)
                     {
-                        Debug.Log("sdasd");
+                       
                         if (MasterCube.GetComponent<CubeScript>().cubes[i][j][k].GetComponent<Transform>().localScale.x >= 0.3
                          || MasterCube.GetComponent<CubeScript>().cubes[i][j][k].GetComponent<Transform>().localScale.y >= 0.3
                          || MasterCube.GetComponent<CubeScript>().cubes[i][j][k].GetComponent<Transform>().localScale.z >= 0.3)
