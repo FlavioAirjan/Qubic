@@ -24,16 +24,9 @@ public class GameManagerScript : MonoBehaviour {
 
         //turn = Random.value > 0.5 ? 1 : -1;
 
-        turn = -1;
+        turn = 1;
+        changeTurn();
 
-        if (turn > 0.5)
-        {
-            setGameTurnText("Computer");
-        }
-        else
-        {
-            setGameTurnText("You");
-        }
     }
 
     // Use this for initialization
@@ -62,12 +55,28 @@ public class GameManagerScript : MonoBehaviour {
         ResultText.GetComponent<Text>().text = s;
     }
 
+    public void changeTurn()
+    {
+        turn *= -1;
+        if (turn > 0.5)
+        {
+            setGameTurnText("Computer");
+        }
+        else
+        {
+            setGameTurnText("You");
+        }
+
+    }
+
+
+
 	// Update is called once per frame
 	void Update () {
 
-        
-
        
+
+
 
     }
 

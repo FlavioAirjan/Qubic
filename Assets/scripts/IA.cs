@@ -29,16 +29,17 @@ public class IA : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        try
-        {
-            QubicInfo = GameObject.Find("QubicInfo");
-            depth = QubicInfo.GetComponent<QubicInfo>().depth;
-        }
-        catch
-        {
-            Debug.Log("QubicInfoNotFound");
-        }
+         try
+         {
+             QubicInfo = GameObject.Find("QubicInfos");
+             depth = QubicInfo.GetComponent<QubicInfos>().depth;
+         }
+         catch
+         {
+             Debug.Log("QubicInfoNotFound");
+         }
 
+        //depth = 1;
         hasDataToPlay = false;
         
         bestPlayIterator = 0;
@@ -265,7 +266,8 @@ public class IA : MonoBehaviour {
             //Debug.Log("Que pena, você perdeu!");
             GameManager.GetComponent<GameManagerScript>().ResultPanel.SetActive(true);
             GameManager.GetComponent<GameManagerScript>().setResultText("YOU LOSE");
-           
+            GameObject.Find("Player").GetComponent<PlayerController>().canPlay = false;
+
             return true;
         }
         else if (aux == minValue * 10)
@@ -273,7 +275,8 @@ public class IA : MonoBehaviour {
             //Debug.Log("Parabéns, você ganhou!");
             GameManager.GetComponent<GameManagerScript>().ResultPanel.SetActive(true);
             GameManager.GetComponent<GameManagerScript>().setResultText("YOU WIN");
-            
+            GameObject.Find("Player").GetComponent<PlayerController>().canPlay = false;
+
             return true;
         }
         else
@@ -289,14 +292,15 @@ public class IA : MonoBehaviour {
                 //Debug.Log("Que pena, você perdeu!");
                 GameManager.GetComponent<GameManagerScript>().ResultPanel.SetActive(true);
                 GameManager.GetComponent<GameManagerScript>().setResultText("YOU LOSE");
-                
+                GameObject.Find("Player").GetComponent<PlayerController>().canPlay = false;
                 return true;
             }else if (aux == minValue * 10)
             {
                 //Debug.Log("Parabéns, você ganhou!");
                 GameManager.GetComponent<GameManagerScript>().ResultPanel.SetActive(true);
                GameManager.GetComponent<GameManagerScript>().setResultText("YOU WIN");
-               
+                GameObject.Find("Player").GetComponent<PlayerController>().canPlay = false;
+
                 return true;
             }
 
@@ -318,7 +322,7 @@ public class IA : MonoBehaviour {
 
             }    
             */
-            GameManager.GetComponent<GameManagerScript>().turn *= -1;
+            GameManager.GetComponent<GameManagerScript>().changeTurn();
 
             //Debug.Log("Término Jogada Computador");
             return false;

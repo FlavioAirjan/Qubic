@@ -6,7 +6,7 @@ public class singleCubeScript : MonoBehaviour {
 
     public GameObject centerMasterCube;
     public GameObject masterCube;
-    private GameObject GameManager;
+
 
     public int[] position;
 
@@ -54,7 +54,7 @@ public class singleCubeScript : MonoBehaviour {
 
         position = new int[3];
 
-        GameManager = GameObject.Find("GameManager");
+
 
         value = 0;
         externCube = false;

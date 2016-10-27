@@ -5,7 +5,7 @@ public class QubicInfo : MonoBehaviour {
 
     void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(this);
     }
 
     public int cubeSize;

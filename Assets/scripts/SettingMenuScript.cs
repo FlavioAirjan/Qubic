@@ -9,21 +9,41 @@ public class SettingMenuScript : MonoBehaviour {
     public GameObject Alert;
     public GameObject InputFieldText;
     public GameObject QubicInfo;
+    public Toggle Tres;
+    public Toggle quatro;
+    public Toggle cinco;
 
-    
+     void Start()
+     {
+            
+     }
     public void EasyGame()
     {
-        QubicInfo.GetComponent<QubicInfo>().depth = 1;
+        int numC=3;
+        if (Tres.isOn)
+        {
+            numC = 3;
+        }else if (quatro.isOn)
+        {
+            numC = 4;
+        } else if (cinco.isOn)
+        {
+            numC = 5;
+        }
+
         try
         {
-            QubicInfo.GetComponent<QubicInfo>().cubeSize  = Int32.Parse(InputFieldText.GetComponent<Text>().text);
+            QubicInfo = GameObject.Find("QubicInfos");
+            QubicInfo.GetComponent<QubicInfos>().cubeSize = numC;
+            QubicInfo.GetComponent<QubicInfos>().depth = 3;
+
         }
         catch
         {
-            Alert.SetActive(true);
-            return;
+            Debug.Log("QubicInfoNotFound");
         }
-        if (QubicInfo.GetComponent<QubicInfo>().cubeSize >= 3)
+        
+        if (QubicInfo.GetComponent<QubicInfos>().cubeSize >= 3)
         {
             SceneManager.LoadScene("Game");
         }
@@ -35,10 +55,10 @@ public class SettingMenuScript : MonoBehaviour {
 
     public void MediumGame()
     {
-        QubicInfo.GetComponent<QubicInfo>().depth = 3;
+        QubicInfo.GetComponent<QubicInfos>().depth = 3;
         try
         {
-            QubicInfo.GetComponent<QubicInfo>().cubeSize = Int32.Parse(InputFieldText.GetComponent<Text>().text);
+            QubicInfo.GetComponent<QubicInfos>().cubeSize = Int32.Parse(InputFieldText.GetComponent<Text>().text);
             
         }
         catch
@@ -46,7 +66,7 @@ public class SettingMenuScript : MonoBehaviour {
             Alert.SetActive(true);
             return;
         }
-        if (QubicInfo.GetComponent<QubicInfo>().cubeSize >= 3)
+        if (QubicInfo.GetComponent<QubicInfos>().cubeSize >= 3)
         {
             SceneManager.LoadScene("Game");
         }
@@ -57,10 +77,10 @@ public class SettingMenuScript : MonoBehaviour {
     }
     public void HardGame()
     {
-        QubicInfo.GetComponent<QubicInfo>().depth = 5;
+        QubicInfo.GetComponent<QubicInfos>().depth = 5;
         try
         {
-            QubicInfo.GetComponent<QubicInfo>().cubeSize = Int32.Parse(InputFieldText.GetComponent<Text>().text);
+            QubicInfo.GetComponent<QubicInfos>().cubeSize = Int32.Parse(InputFieldText.GetComponent<Text>().text);
            
         }
         catch
@@ -68,7 +88,7 @@ public class SettingMenuScript : MonoBehaviour {
             Alert.SetActive(true);
             return;
         }
-        if (QubicInfo.GetComponent<QubicInfo>().cubeSize >= 3)
+        if (QubicInfo.GetComponent<QubicInfos>().cubeSize >= 3)
         {
             SceneManager.LoadScene("Game");
         }
@@ -79,6 +99,7 @@ public class SettingMenuScript : MonoBehaviour {
     }
     public void GoBack()
     {
+       
         SceneManager.LoadScene("StartMenu");
     }
 }

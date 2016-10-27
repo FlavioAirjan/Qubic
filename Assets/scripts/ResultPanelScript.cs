@@ -19,12 +19,14 @@ public class ResultPanelScript : MonoBehaviour {
 
     public void ContinueGame()
     {
+        GameObject.Find("Player").GetComponent<PlayerController>().canPlay = true;
         ResultPanel.SetActive(false);
         
     }
 
     public void QuitGame()
     {
+        GameObject.Find("Player").GetComponent<PlayerController>().canPlay = true;
         SceneManager.LoadScene("StartMenu");
     }
 }

@@ -7,6 +7,7 @@ public class CubeScript : MonoBehaviour {
 
     public float spaceBetweenCubes;
     public int cubeSize;
+    public Material material;
 
     private GameObject QubicInfo;
 
@@ -122,17 +123,19 @@ public class CubeScript : MonoBehaviour {
 
         GameManager = GameObject.Find("GameManager");
         Computer = GameObject.Find("Computador");
-
+        GameObject camera = GameObject.Find("MainCamera");
         try
-        {
-            QubicInfo = GameObject.Find("QubicInfo");
-            cubeSize = QubicInfo.GetComponent<QubicInfo>().cubeSize;
-        }
-        catch
-        {
-            Debug.Log("QubicInfoNotFound");
-        }
+         {
+             QubicInfo = GameObject.Find("QubicInfos");           
+            cubeSize = QubicInfo.GetComponent<QubicInfos>().cubeSize;
 
+        }
+         catch
+         {
+            Debug.Log("QubicInfoNotFound");
+         }
+
+        
         Moves = new List<GameObject>();
         SimulatedMoves = new List<SimulatedMoviments>();
         gameover = false;
@@ -155,7 +158,7 @@ public class CubeScript : MonoBehaviour {
              Debug.Log("\n\n");
          }*/
 
-        
+        camera.GetComponent<ControllingCameraAspectScript>().setCamPos(cubeSize);
     }
 
     public void createCube()
@@ -198,7 +201,7 @@ public class CubeScript : MonoBehaviour {
                     cubes[i][j][k].transform.position = new Vector3(i, j, k);
                     cubes[i][j][k].GetComponent<Transform>().localScale = new Vector3(cubes[i][j][k].GetComponent<Transform>().localScale.x - spaceBetweenCubes, cubes[i][j][k].GetComponent<Transform>().localScale.y - spaceBetweenCubes, cubes[i][j][k].GetComponent<Transform>().localScale.z - spaceBetweenCubes);
 
-                    cubes[i][j][k].GetComponent<Renderer>().material = new Material(Shader.Find("Standard"));
+                    cubes[i][j][k].GetComponent<Renderer>().material = new Material(material);
                     cubes[i][j][k].GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 0.6f);
                     cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
 
@@ -230,7 +233,7 @@ public class CubeScript : MonoBehaviour {
                 {
 
 
-                    cubes[i][j][k].GetComponent<Renderer>().material = new Material(Shader.Find("Standard"));
+                    cubes[i][j][k].GetComponent<Renderer>().material = new Material(material);
                     cubes[i][j][k].GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f, 0.6f);
                     cubes[i][j][k].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
 
